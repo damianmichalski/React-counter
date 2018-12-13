@@ -1,18 +1,21 @@
 var Counter = React.createClass({
     getInitialState: function() {
+        var initialValue =this.props.initialValue || 0 ;
+        var initialStep =this.props.initialStep || 1 ;
         return {
-            counter: 0
+            counter: initialValue,
+            step: initialStep
         };
     },
 
     increment: function() {
         this.setState({
-            counter: this.state.counter + 1
+            counter: this.state.counter + this.state.step
         });
     },
     decrement: function() {
         this.setState({
-            counter: this.state.counter - 1
+            counter: this.state.counter - this.state.step
         });
     },
 
@@ -33,36 +36,8 @@ var Counter = React.createClass({
     },
 });
 
-var element = React.createElement(Counter);
-ReactDOM.render(element, document.getElementById('app'));
+var firstCounter = React.createElement(Counter, {stepValue: 3});
+var secondCounter = React.createElement(Counter, {initialValue: 5});
+var container = React.createElement('div', {}, firstCounter, secondCounter);
+ReactDOM.render(container, document.getElementById('app'));
 
-var CounterSecond = React.createClass({
-    getInitialState: function() {
-        return {
-            counter: 5
-        };
-    },
-
-    increment: function() {
-        this.setState({
-            counter: this.state.counter + 1
-        });
-    },
-    decrement: function() {
-        this.setState({
-            counter: this.state.counter - 1
-        });
-    },
-
-
-    render: function() {
-        return React.createElement('div', {}, 'Zacznij liczyć ',
-            React.createElement('div', {className: 'alert alert-success'}, 'Licznik ' + this.state.counter),
-            React.createElement('button', {className: 'btn btn-success', onClick: this.increment}, 'Dodaj'),
-            React.createElement('button', {className: 'btn btn-warning', onClick: this.decrement}, 'Odejmij')
-        )
-    }
-});
-
-var elementSecond = React.createElement(CounterSecond);
-ReactDOM.render(elementSecond, document.getElementById('app2'));
